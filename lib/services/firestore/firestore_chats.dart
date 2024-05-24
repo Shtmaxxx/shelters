@@ -60,13 +60,9 @@ class FirestoreChats {
     required String chatId,
   }) async {
     final currentUserRef = _usersCollection.doc(userId);
-    final result = await _chatsCollection
-        .where(
-          'participantsRefs',
-          arrayContains: currentUserRef,
-        )
-        .get();
-    if (result.docs.isEmpty) {
+    final chatDoc = await _chatsCollection.doc(chatId).get();
+    final List participants = chatDoc.get('participantsRefs');
+    if (!participants.any((p) => p.id == currentUserRef.id)) {
       await _chatsCollection.doc(chatId).update({
         'participantsRefs': FieldValue.arrayUnion([currentUserRef]),
       });

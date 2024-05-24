@@ -1,1 +1,0 @@
-class NoInternetExeption implements Exception {}

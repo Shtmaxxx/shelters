@@ -12,7 +12,7 @@ import 'cubit/sign_in_cubit.dart';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({super.key});
-  
+
   static const path = '/';
 
   @override
@@ -54,6 +54,7 @@ class SignInPage extends StatelessWidget {
                           controller:
                               context.read<SignInCubit>().emailController,
                           label: 'Email',
+                          textColor: Theme.of(context).scaffoldBackgroundColor,
                           validator: (input) {
                             if (input != null) {
                               return input.isValidEmail()
@@ -68,6 +69,7 @@ class SignInPage extends StatelessWidget {
                           controller:
                               context.read<SignInCubit>().passwordController,
                           label: 'Password',
+                          textColor: Theme.of(context).scaffoldBackgroundColor,
                           obsureText: true,
                           validator: (input) {
                             if (input != null && input.isEmpty) {
@@ -83,14 +85,14 @@ class SignInPage extends StatelessWidget {
                         AuthButton(
                           name: 'Sign in',
                           onPressed: () async {
-                              final formState = context
-                                  .read<SignInCubit>()
-                                  .formKey
-                                  .currentState;
-                              if (formState?.validate() ?? false) {
-                                await context.read<SignInCubit>().signIn();
-                              }
-                            },
+                            final formState = context
+                                .read<SignInCubit>()
+                                .formKey
+                                .currentState;
+                            if (formState?.validate() ?? false) {
+                              await context.read<SignInCubit>().signIn();
+                            }
+                          },
                         ),
                         const SizedBox(height: 20),
                         Wrap(
@@ -109,9 +111,9 @@ class SignInPage extends StatelessWidget {
                                 Routemaster.of(context).push(SignUpPage.path);
                               },
                               child: const Text(
-                                'Register',
+                                'Sign up',
                                 style: TextStyle(
-                                  color: Color(0xFFFFE500),
+                                  color: Color(0xffede737),
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
                                 ),

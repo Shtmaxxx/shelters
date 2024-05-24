@@ -54,6 +54,7 @@ class SignUpPage extends StatelessWidget {
                             controller:
                                 context.read<SignUpCubit>().nameController,
                             label: 'Name',
+                            textColor: Theme.of(context).scaffoldBackgroundColor,
                             validator: (input) {
                               if (input != null && input.isEmpty) {
                                 return 'Name is required';
@@ -72,6 +73,7 @@ class SignUpPage extends StatelessWidget {
                           controller:
                               context.read<SignUpCubit>().emailController,
                           label: 'Email',
+                          textColor: Theme.of(context).scaffoldBackgroundColor,
                           validator: (input) {
                             if (input != null) {
                               return input.isValidEmail()
@@ -86,6 +88,7 @@ class SignUpPage extends StatelessWidget {
                           controller:
                               context.read<SignUpCubit>().passwordController,
                           label: 'Password',
+                          textColor: Theme.of(context).scaffoldBackgroundColor,
                           obsureText: true,
                           validator: (input) {
                             if (input != null && input.isEmpty) {

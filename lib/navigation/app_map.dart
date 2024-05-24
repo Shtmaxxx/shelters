@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:shelters/flows/main/presentation/pages/chat_page/chat_page.dart';
+import 'package:shelters/flows/menu/presentation/pages/create_marker/create_marker_page.dart';
+import 'package:shelters/flows/menu/presentation/pages/pick_marker_location/pick_marker_location_page.dart';
 import 'package:shelters/flows/menu/presentation/pages/profile/profile_page.dart';
-import 'package:shelters/flows/menu/presentation/pages/spots_map/spots_map_page.dart';
+import 'package:shelters/flows/menu/presentation/pages/spots_map/shelters_map_page.dart';
 import '../flows/main/presentation/pages/main/main_page.dart';
-import 'helpers/route_map_initial_page.dart';
 
 class AppRouteMap extends RouteMap {
   AppRouteMap()
@@ -18,12 +19,10 @@ class AppRouteMap extends RouteMap {
   static Map<String, PageBuilder> _routes() {
     return {
       MainPage.path: (_) => _createMaterialPage(
-            const RouteMapInitialPage(
-              child: MainPage(),
-            ),
+            const MainPage(),
           ),
       ..._chatsPageRoute(),
-      ..._spotsMapRoute(),
+      ..._sheltersMapRoute(),
       ..._profilePageRoute(),
     };
   }
@@ -37,7 +36,7 @@ class AppRouteMap extends RouteMap {
               isGroup: routeData.queryParameters['isGroup'] == 'true',
             ),
           ),
-      path + SpotsMapPage.path + ChatPage.path: (routeData) =>
+      path + SheltersMapPage.path + ChatPage.path: (routeData) =>
           _createMaterialPage(
             ChatPage(
               chatId: routeData.queryParameters['chatId']!,
@@ -63,28 +62,32 @@ class AppRouteMap extends RouteMap {
               email: routeData.queryParameters['email'],
             ),
           ),
+      path + SheltersMapPage.path + ChatPage.path + ProfilePage.path:
+          (routeData) => _createMaterialPage(
+                ProfilePage(
+                  name: routeData.queryParameters['name']!,
+                  email: routeData.queryParameters['email'],
+                ),
+              ),
     };
   }
 
-  static Map<String, PageBuilder> _spotsMapRoute([String path = '']) {
+  static Map<String, PageBuilder> _sheltersMapRoute([String path = '']) {
     return {
-      path + SpotsMapPage.path: (routeData) => _createMaterialPage(
-            SpotsMapPage(
-              focusedPlaceId: routeData.queryParameters['markerId'],
-            ),
+      path + SheltersMapPage.path: (routeData) => _createMaterialPage(
+            const SheltersMapPage(),
           ),
-      // MapPage.path + CreateMarkerPage.path: (_) => _createMaterialPage(
-      //       const CreateMarkerPage(),
-      //     ),
-      // MapPage.path + CreateMarkerPage.path + PickMarkerLocationPage.path:
-      //     (routeData) => _createMaterialPage(
-      //           PickMarkerLocationPage(
-      //             name: routeData.queryParameters['name']!,
-      //             description: routeData.queryParameters['description']!,
-      //             typeId: routeData.queryParameters['typeId']!,
-      //             typeIndex: int.parse(routeData.queryParameters['typeIndex']!),
-      //           ),
-      //         ),
+      path + SheltersMapPage.path + CreateMarkerPage.path: (_) =>
+          _createMaterialPage(
+            const CreateMarkerPage(),
+          ),
+      path + SheltersMapPage.path + CreateMarkerPage.path + PickMarkerLocationPage.path:
+          (routeData) => _createMaterialPage(
+                PickMarkerLocationPage(
+                  name: routeData.queryParameters['name']!,
+                  description: routeData.queryParameters['description']!,
+                ),
+              ),
     };
   }
 

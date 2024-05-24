@@ -1,6 +1,6 @@
 enum MarkersIcons {
-  spot,
-  spotJoined,
+  shelter,
+  shelterJoined,
 }
 
 class MarkersIconsMapper {

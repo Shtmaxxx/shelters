@@ -51,4 +51,25 @@ class FirestoreMarkers {
 
     return markerPoints;
   }
+
+  Future<void> addMarkerPoint({
+    required String name,
+    required String description,
+    required double lat,
+    required double lon,
+  }) async {
+    final geoPoint = GeoPoint(lat, lon);
+    final createdChat = await _chatsCollection.add({
+      'title': name,
+      'description': description,
+      'isGroupChat': true,
+      'recentMessage': '',
+      'recentMessageDateTime': Timestamp.fromDate(DateTime.now()),
+      'participantsRefs': FieldValue.arrayUnion([]),
+    });
+    await _markersCollection.add({
+      'chatRef': createdChat,
+      'geopoint': geoPoint,
+    });
+  }
 }

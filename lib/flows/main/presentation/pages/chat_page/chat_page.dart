@@ -53,15 +53,6 @@ class ChatPage extends StatelessWidget {
             backgroundColor: Theme.of(context).canvasColor,
             body: Stack(
               children: [
-                Opacity(
-                  opacity: 0.2,
-                  child: Image.asset(
-                    Assets.chatsBackground.path,
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
-                    fit: BoxFit.cover,
-                  ),
-                ),
                 BlocBuilder<MessagesCubit, MessagesState>(
                   builder: (context, state) {
                     if (state is MessagesInitial) {
@@ -75,39 +66,55 @@ class ChatPage extends StatelessWidget {
                           } else if (snapshot.hasData) {
                             final messages = snapshot.data!;
 
-                            return SingleChildScrollView(
-                              reverse: true,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                verticalDirection: VerticalDirection.up,
-                                children: [
-                                  const SizedBox(height: 100),
-                                  ...messages.map((item) {
-                                    if (!isGroup || item.sentByUser) {
-                                      return MessageItem(
-                                        message: item.messageText,
-                                        time: DateFormat.Hm()
-                                            .format(item.dateTime),
-                                        sentByUser: item.sentByUser,
-                                      );
-                                    } else {
-                                      return GroupMessageItem(
-                                        message: item.messageText,
-                                        time: DateFormat.Hm()
-                                            .format(item.dateTime),
-                                        senderName: item.senderName,
-                                        sentByUser: false,
-                                        onUserAvatarPressed: () =>
-                                            Routemaster.of(context).push(
-                                          path + ProfilePage.path,
-                                          queryParameters: {
-                                            'name': item.senderName,
-                                          },
-                                        ),
-                                      );
-                                    }
-                                  }).toList(),
-                                ],
+                            return Container(
+                              height: MediaQuery.of(context).size.height,
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                    Assets.chatsBackground.path,
+                                  ),
+                                  opacity: 0.2,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              child: SingleChildScrollView(
+                                reverse: true,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  verticalDirection: VerticalDirection.up,
+                                  children: [
+                                    const SizedBox(height: 100),
+                                    ...messages.map((item) {
+                                      if (!isGroup || item.sentByUser) {
+                                        return MessageItem(
+                                          message: item.messageText,
+                                          time: DateFormat.Hm()
+                                              .format(item.dateTime),
+                                          sentByUser: item.sentByUser,
+                                        );
+                                      } else {
+                                        return GroupMessageItem(
+                                          message: item.messageText,
+                                          time: DateFormat.Hm()
+                                              .format(item.dateTime),
+                                          senderName: item.senderName,
+                                          sentByUser: false,
+                                          onUserAvatarPressed: () =>
+                                              Routemaster.of(context).push(
+                                            Routemaster.of(context)
+                                                    .currentRoute
+                                                    .path +
+                                                ProfilePage.path,
+                                            queryParameters: {
+                                              'name': item.senderName,
+                                            },
+                                          ),
+                                        );
+                                      }
+                                    }).toList(),
+                                  ],
+                                ),
                               ),
                             );
                           }

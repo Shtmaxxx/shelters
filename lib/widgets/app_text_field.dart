@@ -4,13 +4,25 @@ class AppTextField extends StatelessWidget {
   const AppTextField({
     required this.controller,
     required this.label,
-    this.obsureText = false,    
+    this.obsureText = false,
+    this.focusNode,
+    this.maxLength,
+    this.maxLines = 1,
+    this.color = Colors.white,
+    this.textColor,
+    this.errorColor = const Color(0xffede737),
     this.validator,
     super.key,
   });
 
   final TextEditingController controller;
   final bool obsureText;
+  final FocusNode? focusNode;
+  final int? maxLength;
+  final int maxLines;
+  final Color color;
+  final Color? textColor;
+  final Color errorColor;
   final String label;
   final String? Function(String?)? validator;
 
@@ -19,41 +31,66 @@ class AppTextField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       obscureText: obsureText,
-      cursorColor: const Color(0xFFFFE500),
-      style: const TextStyle(
+      cursorColor: Theme.of(context).primaryColorDark,
+      maxLength: maxLength,
+      maxLines: maxLines,
+      style: TextStyle(
         fontSize: 16,
-        color: Colors.white,
+        color: textColor,
       ),
+      focusNode: focusNode,
       decoration: InputDecoration(
-        errorStyle: const TextStyle(
-          color: Color(0xFFFFE500),
+        alignLabelWithHint: true,
+        border: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: color,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: color,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: color,
+          ),
+        ),
+        errorStyle: TextStyle(
+          color: errorColor,
           fontWeight: FontWeight.w500,
         ),
-        focusedErrorBorder: const OutlineInputBorder(
+        focusedErrorBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: Color(0xFFFFE500),
+            color: errorColor,
           ),
         ),
-        errorBorder: const OutlineInputBorder(
+        errorBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: Color(0xFFFFE500),
-          ),
-        ),
-        enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.white,
-          ),
-        ),
-        focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.white,
+            color: errorColor,
           ),
         ),
         isDense: true,
         labelText: label,
-        labelStyle: const TextStyle(
-          fontSize: 16,
-          color: Colors.white,
+        floatingLabelStyle: MaterialStateTextStyle.resolveWith(
+          (Set<MaterialState> states) {
+            final Color color =
+                states.contains(MaterialState.error) ? errorColor : this.color;
+            return TextStyle(
+              fontSize: 16,
+              color: color,
+            );
+          },
+        ),
+        labelStyle: MaterialStateTextStyle.resolveWith(
+          (Set<MaterialState> states) {
+            final Color color =
+                states.contains(MaterialState.error) ? errorColor : this.color;
+            return TextStyle(
+              fontSize: 16,
+              color: color,
+            );
+          },
         ),
       ),
       validator: validator,

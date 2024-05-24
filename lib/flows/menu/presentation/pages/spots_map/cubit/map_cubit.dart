@@ -25,10 +25,8 @@ class MapCubit extends Cubit<MapState> {
   final GetMarkersUseCase getMarkers;
   final JoinChatGroupUseCase joinChatGroup;
 
-  static const CameraPosition defaultInitialCameraPosition = CameraPosition(
-    target: LatLng(50.448899667450405, 30.456975575830512),
-    zoom: 15,
-  );
+  static const CameraPosition defaultInitialCameraPosition =
+      LocationPermissionsHelper.defaultInitialCameraPosition;
 
   late final GoogleMapController controller;
   late Map<MarkersIcons, Uint8List> markersIcons;
@@ -63,7 +61,8 @@ class MapCubit extends Cubit<MapState> {
               zoom: 14,
             );
           }
-        } else if (await LocationPermissionsHelper.requestLocationPermissions()) {
+        } else if (await LocationPermissionsHelper
+            .requestLocationPermissions()) {
           final position = await Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.high,
           );
@@ -80,6 +79,27 @@ class MapCubit extends Cubit<MapState> {
     );
   }
 
+  Future<void> getMapMarkers(String userId) async {
+    final result = await getMarkers(userId);
+    result.fold(
+      (failure) {
+        emit(
+          MapError(
+            markers: state.markers,
+            markerPoints: state.markerPoints,
+            failure: failure,
+          ),
+        );
+      },
+      (markerPoints) async {
+        await displayMarkers(
+          markerPoints,
+          initialCameraPosition: state.initialCameraPosition,
+        );
+      },
+    );
+  }
+
   Future<void> displayMarkers(List<MarkerPoint> markerPoints,
       {CameraPosition? initialCameraPosition}) async {
     final markers = markerPoints
@@ -88,8 +108,8 @@ class MapCubit extends Cubit<MapState> {
             markerId: MarkerId(m.id),
             position: LatLng(m.latitude, m.longitude),
             icon: BitmapDescriptor.fromBytes(m.spotJoined
-                ? markersIcons[MarkersIcons.spotJoined]!
-                : markersIcons[MarkersIcons.spot]!),
+                ? markersIcons[MarkersIcons.shelterJoined]!
+                : markersIcons[MarkersIcons.shelter]!),
             onTap: () => _onMarkerPressed(m.id),
           ),
         )
@@ -128,6 +148,8 @@ class MapCubit extends Cubit<MapState> {
           SpotJoined(
             chatId: chatId,
             spotName: spotName,
+            markers: state.markers,
+            markerPoints: state.markerPoints,
           ),
         );
       },

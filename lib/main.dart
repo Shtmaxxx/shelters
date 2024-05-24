@@ -9,7 +9,6 @@ import 'package:shelters/themes/theme_data_values.dart';
 import 'l10n/app_localizations.dart';
 import 'navigation/app_state_cubit/app_state_cubit.dart';
 import 'navigation/helpers/title_observer.dart';
-import 'services/app_intenal_notification_system/bloc/app_intenal_notifications_bloc.dart';
 import 'services/injectible/injectible_init.dart';
 
 void main() async {
@@ -33,9 +32,6 @@ class App extends StatelessWidget {
       providers: [
         BlocProvider.value(
           value: appStateCubit,
-        ),
-        BlocProvider(
-          create: (context) => getIt<AppInternalNotificationsBloc>(),
         ),
       ],
       child: BlocBuilder<AppStateCubit, AppState>(

@@ -82,7 +82,7 @@ class MarkerInfoPopUp extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 16),
               child: PrimaryButton(
-                title: isJoined ? 'Open chat' : 'Join spot',
+                title: isJoined ? 'Open chat' : 'Join shelter',
                 onPressed: onJoinSpot,
                 verticalPadding: 12,
               ),

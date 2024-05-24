@@ -4,7 +4,7 @@ class PrimaryButton extends StatelessWidget {
   const PrimaryButton({
     required this.onPressed,
     required this.title,
-    this.verticalPadding = 15,
+    this.verticalPadding = 12,
     super.key,
   });
 
@@ -16,13 +16,13 @@ class PrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: Theme.of(context).primaryColor,
-      borderRadius: BorderRadius.circular(4),
+      borderRadius: BorderRadius.circular(8),
       child: InkWell(
         onTap: onPressed,
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(8),
         child: Ink(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(8),
           ),
           padding: EdgeInsets.symmetric(vertical: verticalPadding),
           child: Row(
