@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "282429390301",
+    "project_id": "shelters-f01ad",
+    "storage_bucket": "shelters-f01ad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:282429390301:android:466df76c733218f7f5ca34",
+        "android_client_info": {
+          "package_name": "com.maksymshtoler.shelters"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGQ8h-qRli-9x3HxqchB4n_LDDdBFvOfw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
