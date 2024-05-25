@@ -8,6 +8,7 @@ class MarkerInfoPopUp extends StatelessWidget {
     required this.distance,
     required this.isJoined,
     required this.onJoinSpot,
+    required this.onNavigate,
     Key? key,
   }) : super(key: key);
 
@@ -16,6 +17,7 @@ class MarkerInfoPopUp extends StatelessWidget {
   final String distance;
   final bool isJoined;
   final VoidCallback onJoinSpot;
+  final VoidCallback onNavigate;
 
   @override
   Widget build(BuildContext context) {
@@ -80,12 +82,17 @@ class MarkerInfoPopUp extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 16),
+              padding: const EdgeInsets.only(top: 16, bottom: 10),
               child: PrimaryButton(
                 title: isJoined ? 'Open chat' : 'Join shelter',
                 onPressed: onJoinSpot,
                 verticalPadding: 12,
               ),
+            ),
+            PrimaryButton(
+              title: 'Open in maps',
+              onPressed: onNavigate,
+              verticalPadding: 12,
             ),
           ],
         ),

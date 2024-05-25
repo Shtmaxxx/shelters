@@ -1,11 +1,16 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fluster/fluster.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:injectable/injectable.dart';
+import 'package:map_launcher/map_launcher.dart';
 import 'package:shelters/domain/core/errors/failures.dart';
 import 'package:shelters/flows/main/domain/usecases/join_chat_group.dart';
 import 'package:shelters/flows/menu/domain/entities/marker_point.dart';
@@ -121,7 +126,7 @@ class MapCubit extends Cubit<MapState> {
       }
       return c.toMarker(onPressed: _onMarkerPressed);
     }).toSet();
-    
+
     emit(
       MapDataLoaded(
         markers: markers,
@@ -197,6 +202,45 @@ class MapCubit extends Cubit<MapState> {
         );
       },
     );
+  }
+
+  openMapsBottomSheet({
+    required BuildContext context,
+    required MarkerPoint markerPoint,
+  }) async {
+    try {
+      final coords = Coords(markerPoint.latitude, markerPoint.longitude);
+      final availableMaps = await MapLauncher.installedMaps;
+
+      showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return SafeArea(
+            child: SingleChildScrollView(
+              child: Wrap(
+                children: <Widget>[
+                  for (var map in availableMaps)
+                    ListTile(
+                      onTap: () => map.showMarker(
+                        coords: coords,
+                        title: markerPoint.name,
+                      ),
+                      title: Text(map.mapName),
+                      leading: SvgPicture.asset(
+                        map.icon,
+                        height: 30.0,
+                        width: 30.0,
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          );
+        },
+      );
+    } catch (e) {
+      print(e);
+    }
   }
 
   void resetMap() => emit(

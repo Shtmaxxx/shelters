@@ -5,17 +5,19 @@ class PrimaryButton extends StatelessWidget {
     required this.onPressed,
     required this.title,
     this.verticalPadding = 12,
+    this.color,
     super.key,
   });
 
   final VoidCallback onPressed;
   final String title;
   final double verticalPadding;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Theme.of(context).primaryColor,
+      color: color ?? Theme.of(context).primaryColor,
       borderRadius: BorderRadius.circular(8),
       child: InkWell(
         onTap: onPressed,

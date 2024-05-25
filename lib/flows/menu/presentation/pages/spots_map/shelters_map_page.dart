@@ -63,6 +63,10 @@ class SheltersMapPage extends StatelessWidget {
                         );
                       }
                     },
+                    onNavigate: () => mapCubit.openMapsBottomSheet(
+                      context: context,
+                      markerPoint: state.pressedMarkerPoint,
+                    ),
                   ),
                 );
                 mapCubit.resetMap();

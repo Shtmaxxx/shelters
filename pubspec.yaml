@@ -46,6 +46,7 @@ dependencies:
   fluster: ^1.2.0
   collection: ^1.16.0
   geolocator: ^11.0.0
+  map_launcher: ^3.3.0
 
   #  IMAGES
   flutter_svg: ^2.0.10+1
