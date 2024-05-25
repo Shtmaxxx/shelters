@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
@@ -22,9 +21,6 @@ Future<void> configureDependencies() => $initGetIt(getIt);
 abstract class RegisterModule {
   @lazySingleton
   FlutterSecureStorage get flutterSecureStorage => const FlutterSecureStorage();
-
-  @lazySingleton
-  Connectivity get connectivity => Connectivity();
 
   @lazySingleton
   FirebaseAuth get firebaseAuth => FirebaseAuth.instance;

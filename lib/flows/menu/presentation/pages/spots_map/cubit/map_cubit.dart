@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
+import 'package:fluster/fluster.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
@@ -11,6 +12,8 @@ import 'package:shelters/flows/menu/domain/entities/marker_point.dart';
 import 'package:shelters/flows/menu/domain/usecases/get_markers.dart';
 import 'package:shelters/flows/menu/presentation/pages/spots_map/enums/markers_icons.dart';
 import 'package:shelters/flows/menu/presentation/pages/spots_map/helpers/location_permissions_helper.dart';
+import 'package:shelters/flows/menu/presentation/pages/spots_map/helpers/map_constants.dart';
+import 'package:shelters/flows/menu/presentation/pages/spots_map/helpers/map_marker.dart';
 import 'package:shelters/flows/menu/presentation/pages/spots_map/helpers/marker_helper.dart';
 
 part 'map_state.dart';
@@ -26,10 +29,12 @@ class MapCubit extends Cubit<MapState> {
   final JoinChatGroupUseCase joinChatGroup;
 
   static const CameraPosition defaultInitialCameraPosition =
-      LocationPermissionsHelper.defaultInitialCameraPosition;
+      MapConstants.defaultInitialCameraPosition;
 
+  int _currentZoom = MapConstants.defaultZoomValue.toInt();
   late final GoogleMapController controller;
   late Map<MarkersIcons, Uint8List> markersIcons;
+  late Fluster<MapMarker> _fluster;
 
   Future<void> initMapData(String userId, {String? focusedPlaceId}) async {
     markersIcons = await MarkerHelper.initMarkersIcons();
@@ -58,7 +63,7 @@ class MapCubit extends Cubit<MapState> {
             final lon = markerPoint.longitude;
             initialCameraPosition = CameraPosition(
               target: LatLng(lat, lon),
-              zoom: 14,
+              zoom: MapConstants.defaultZoomValue,
             );
           }
         } else if (await LocationPermissionsHelper
@@ -68,11 +73,13 @@ class MapCubit extends Cubit<MapState> {
           );
           initialCameraPosition = CameraPosition(
             target: LatLng(position.latitude, position.longitude),
-            zoom: 14,
+            zoom: MapConstants.defaultZoomValue,
           );
         }
+
+        updateFluster(markerPoints);
         await displayMarkers(
-          markerPoints,
+          markerPoints: markerPoints,
           initialCameraPosition: initialCameraPosition,
         );
       },
@@ -92,35 +99,35 @@ class MapCubit extends Cubit<MapState> {
         );
       },
       (markerPoints) async {
+        updateFluster(markerPoints);
         await displayMarkers(
-          markerPoints,
+          markerPoints: markerPoints,
           initialCameraPosition: state.initialCameraPosition,
         );
       },
     );
   }
 
-  Future<void> displayMarkers(List<MarkerPoint> markerPoints,
-      {CameraPosition? initialCameraPosition}) async {
-    final markers = markerPoints
-        .map(
-          (m) => Marker(
-            markerId: MarkerId(m.id),
-            position: LatLng(m.latitude, m.longitude),
-            icon: BitmapDescriptor.fromBytes(m.spotJoined
-                ? markersIcons[MarkersIcons.shelterJoined]!
-                : markersIcons[MarkersIcons.shelter]!),
-            onTap: () => _onMarkerPressed(m.id),
-          ),
-        )
-        .toSet();
+  Future<void> displayMarkers({
+    List<MarkerPoint>? markerPoints,
+    CameraPosition? initialCameraPosition,
+  }) async {
+    List<MapMarker> clusters =
+        _fluster.clusters([-180, -85, 180, 85], _currentZoom);
 
+    final markers = clusters.map((c) {
+      if (c.isCluster ?? false) {
+        return c.toMarker(onPressed: _onClusterPressed);
+      }
+      return c.toMarker(onPressed: _onMarkerPressed);
+    }).toSet();
+    
     emit(
       MapDataLoaded(
         markers: markers,
-        markerPoints: markerPoints,
+        markerPoints: markerPoints ?? state.markerPoints,
         initialCameraPosition:
-            initialCameraPosition ?? defaultInitialCameraPosition,
+            initialCameraPosition ?? state.initialCameraPosition,
       ),
     );
   }
@@ -156,10 +163,47 @@ class MapCubit extends Cubit<MapState> {
     );
   }
 
+  void updateFluster(List<MarkerPoint> markerPoints) {
+    final mapMarkers = markerPoints
+        .map(
+          (m) => MapMarker(
+            id: m.id,
+            position: LatLng(m.latitude, m.longitude),
+            icon: BitmapDescriptor.fromBytes(m.spotJoined
+                ? markersIcons[MarkersIcons.shelterJoined]!
+                : markersIcons[MarkersIcons.shelter]!),
+          ),
+        )
+        .toList();
+    _fluster = Fluster<MapMarker>(
+      minZoom: MapConstants.flusterMinZoom,
+      maxZoom: MapConstants.flusterMaxZoom,
+      radius: MapConstants.flusterRadius,
+      extent: MapConstants.flusterExtent,
+      nodeSize: MapConstants.flusterNodeSize,
+      points: mapMarkers,
+      createCluster:
+          (BaseCluster? cluster, double? longitude, double? latitude) {
+        return MapMarker(
+          id: cluster!.id.toString(),
+          position: LatLng(latitude!, longitude!),
+          icon: BitmapDescriptor.fromBytes(
+            markersIcons[MarkersIcons.shelterCluster]!,
+          ),
+          isCluster: cluster.isCluster,
+          clusterId: cluster.id,
+          pointsSize: cluster.pointsSize,
+          childMarkerId: cluster.childMarkerId,
+        );
+      },
+    );
+  }
+
   void resetMap() => emit(
         MapDataLoaded(
           markers: state.markers,
           markerPoints: state.markerPoints,
+          initialCameraPosition: state.initialCameraPosition,
         ),
       );
 
@@ -170,8 +214,34 @@ class MapCubit extends Cubit<MapState> {
         ),
       );
 
+  void onCameraMoved(double zoom) {
+    if (_currentZoom != zoom.toInt()) {
+      _currentZoom = zoom.toInt();
+      if (state is MapDataLoaded) {
+        displayMarkers();
+      }
+    }
+  }
+
   void onMapCreated(GoogleMapController mapController) {
     controller = mapController;
+  }
+
+  void _onClusterPressed(String clusterId) async {
+    final position =
+        state.markers.firstWhere((m) => m.markerId.value == clusterId).position;
+    while (_fluster.clusters([-180, -85, 180, 85], _currentZoom).any(
+        (c) => c.position == position)) {
+      _currentZoom++;
+    }
+    await controller.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(position.latitude, position.longitude),
+          zoom: _currentZoom.toDouble(),
+        ),
+      ),
+    );
   }
 
   void _onMarkerPressed(String id) {

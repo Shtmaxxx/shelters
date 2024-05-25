@@ -43,15 +43,20 @@ class $AssetsIconsGen {
 class $AssetsMarkersGen {
   const $AssetsMarkersGen();
 
-  /// File path: assets/markers/spot.png
-  AssetGenImage get spot => const AssetGenImage('assets/markers/spot.png');
+  /// File path: assets/markers/shelter.png
+  AssetGenImage get shelter =>
+      const AssetGenImage('assets/markers/shelter.png');
 
-  /// File path: assets/markers/spot_joined.png
-  AssetGenImage get spotJoined =>
-      const AssetGenImage('assets/markers/spot_joined.png');
+  /// File path: assets/markers/shelter_cluster.png
+  AssetGenImage get shelterCluster =>
+      const AssetGenImage('assets/markers/shelter_cluster.png');
+
+  /// File path: assets/markers/shelter_joined.png
+  AssetGenImage get shelterJoined =>
+      const AssetGenImage('assets/markers/shelter_joined.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [spot, spotJoined];
+  List<AssetGenImage> get values => [shelter, shelterCluster, shelterJoined];
 }
 
 class Assets {

@@ -94,6 +94,8 @@ class SheltersMapPage extends StatelessWidget {
                         GoogleMap(
                           initialCameraPosition: state.initialCameraPosition,
                           onMapCreated: mapCubit.onMapCreated,
+                          onCameraMove: (position) =>
+                              mapCubit.onCameraMoved(position.zoom),
                           zoomControlsEnabled: false,
                           markers: state.markers,
                           mapToolbarEnabled: false,

@@ -2,11 +2,10 @@ import 'dart:ui' as ui;
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shelters/flows/menu/presentation/pages/spots_map/enums/markers_icons.dart';
+import 'package:shelters/flows/menu/presentation/pages/spots_map/helpers/map_constants.dart';
 import 'package:shelters/gen/assets.gen.dart';
 
 class MarkerHelper {
-  static const int markerWidth = 80;
-
   static Future<Uint8List> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
     ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
@@ -31,12 +30,16 @@ class MarkerHelper {
   static Future<Map<MarkersIcons, Uint8List>> initMarkersIcons() async {
     return {
       MarkersIcons.shelter: await MarkerHelper.getBytesFromAsset(
-        Assets.markers.spot.path,
-        markerWidth,
+        Assets.markers.shelter.path,
+        MapConstants.markerWidth,
       ),
       MarkersIcons.shelterJoined: await MarkerHelper.getBytesFromAsset(
-        Assets.markers.spotJoined.path,
-        markerWidth,
+        Assets.markers.shelterJoined.path,
+        MapConstants.markerWidth,
+      ),
+      MarkersIcons.shelterCluster: await MarkerHelper.getBytesFromAsset(
+        Assets.markers.shelterCluster.path,
+        MapConstants.clusterWidth,
       ),
     };
   }

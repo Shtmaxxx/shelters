@@ -19,24 +19,19 @@ dependencies:
   equatable: ^2.0.3
   get_it: ^7.2.0
   injectable: ^1.5.3
-  flutter_dotenv: ^5.0.2
 
   #  NAVIGATION
   routemaster: ^1.0.1
-  modal_bottom_sheet: ^2.0.0
   app_settings: ^4.1.8
 
   #  NETWORK
   dio: ^4.0.0
   dio_cookie_manager: ^2.0.0
-  connectivity_plus: ^2.1.0
-  flutter_cache_manager: ^3.3.0
   firebase_core: ^2.3.0
   firebase_messaging: ^14.1.2
   firebase_auth: ^4.2.5
   firebase_storage: ^11.0.10
   cloud_firestore: ^4.3.1
-  flutter_local_notifications: ^12.0.4
 
   #  UTILS
   package_info_plus: ^8.0.0
@@ -44,27 +39,15 @@ dependencies:
   shared_preferences: ^2.0.13
   flutter_secure_storage: ^6.0.0
   intl: ^0.18.1
-  uni_links: ^0.5.1
   dartz: ^0.10.1
-  camera: ^0.10.0+4
-  path_provider: ^2.0.9
   permission_handler: ^10.0.0
   url_launcher: ^6.0.20
-  uuid: ^3.0.5
-  scrollable_positioned_list: ^0.3.5
-  flutter_slidable: ^2.0.0
-  country_calling_code_picker: ^2.0.1
-  extended_masked_text: ^2.3.1
-  pin_code_fields: ^7.4.0
-  phone_number: ^1.0.0
   flutter_gen: ^5.4.0
+  fluster: ^1.2.0
   collection: ^1.16.0
   geolocator: ^11.0.0
-  file_picker: ^5.2.5
 
   #  IMAGES
-  cached_network_image: ^3.1.0
-  image_picker: ^0.8.5
   flutter_svg: ^2.0.10+1
 
   # ICONS
