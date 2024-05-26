@@ -5,6 +5,8 @@ import 'package:injectable/injectable.dart';
 import 'package:shelters/domain/core/errors/failures.dart';
 import 'package:shelters/flows/main/domain/entities/message.dart';
 import 'package:shelters/flows/main/domain/usecases/get_chat_messages.dart';
+import 'package:shelters/flows/main/domain/usecases/join_chat_group.dart';
+import 'package:shelters/flows/main/domain/usecases/leave_chat_group.dart';
 import 'package:shelters/flows/main/domain/usecases/send_message.dart';
 
 part 'messages_state.dart';
@@ -14,6 +16,7 @@ class MessagesCubit extends Cubit<MessagesState> {
   MessagesCubit(
     this.getChatMessagesUseCase,
     this.sendMessageUseCase,
+    this.leaveChatGroupUseCase,
   )   : messageController = TextEditingController(),
         super(MessagesLoading());
 
@@ -21,6 +24,7 @@ class MessagesCubit extends Cubit<MessagesState> {
 
   final GetChatMessagesUseCase getChatMessagesUseCase;
   final SendMessageUseCase sendMessageUseCase;
+  final LeaveChatGroupUseCase leaveChatGroupUseCase;
 
   void initStream(String chatId, String userId) {
     final result = getChatMessagesUseCase(chatId, userId);
@@ -31,7 +35,6 @@ class MessagesCubit extends Cubit<MessagesState> {
         );
       },
       (stream) {
-        // stream.listen((event) {},);
         emit(
           MessagesInitial(stream: stream),
         );
@@ -62,6 +65,25 @@ class MessagesCubit extends Cubit<MessagesState> {
         (result) {},
       );
     }
+  }
+
+  Future<void> leaveChat({
+    required String userId,
+    required String chatId,
+  }) async {
+    final params = ChatGroupParams(userId: userId, chatId: chatId);
+
+    final result = await leaveChatGroupUseCase(params);
+    result.fold(
+      (failure) {
+        emit(
+          MessagesError(failure: failure),
+        );
+      },
+      (result) {
+        emit(const ChatGroupLeft());
+      },
+    );
   }
 
   void emitError(String error) => emit(

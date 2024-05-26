@@ -18,4 +18,8 @@ abstract class ChatsRepositoryI {
     required String userId,
     required String chatId,
   });
+  Future<Either<Failure, void>> removeUserFromGroupChat({
+    required String userId,
+    required String chatId,
+  });
 }

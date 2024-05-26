@@ -68,4 +68,15 @@ class FirestoreChats {
       });
     }
   }
+
+  Future<void> removeUserFromGroupChat({required String userId, required String chatId,}) async {
+    final currentUserRef = _usersCollection.doc(userId);
+    final chatDoc = await _chatsCollection.doc(chatId).get();
+    final List participants = chatDoc.get('participantsRefs');
+    if (participants.any((p) => p.id == currentUserRef.id)) {
+      await _chatsCollection.doc(chatId).update({
+        'participantsRefs': FieldValue.arrayRemove([currentUserRef]),
+      });
+    }
+  }
 }

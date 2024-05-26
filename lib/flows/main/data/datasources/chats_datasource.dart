@@ -18,6 +18,10 @@ abstract class ChatsDatasourceI {
     required String userId,
     required String chatId,
   });
+  Future<void> removeUserFromGroupChat({
+    required String userId,
+    required String chatId,
+  });
 }
 
 @Injectable(as: ChatsDatasourceI)
@@ -77,6 +81,22 @@ class ChatsDatasourceImpl implements ChatsDatasourceI {
   }) async {
     try {
       final result = await firestoreChats.addUserToGroupChat(
+        userId: userId,
+        chatId: chatId,
+      );
+      return result;
+    } catch (exception) {
+      throw ServerFailure(message: 'Something went wrong: $exception');
+    }
+  }
+
+  @override
+  Future<void> removeUserFromGroupChat({
+    required String userId,
+    required String chatId,
+  }) async {
+    try {
+      final result = await firestoreChats.removeUserFromGroupChat(
         userId: userId,
         chatId: chatId,
       );

@@ -15,6 +15,10 @@ class MessagesInitial extends MessagesState {
   final Stream<List<Message>> stream;
 }
 
+class ChatGroupLeft extends MessagesState {
+  const ChatGroupLeft();
+}
+
 class MessagesError extends MessagesState {
   const MessagesError({required this.failure});
 

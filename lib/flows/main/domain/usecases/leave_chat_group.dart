@@ -3,28 +3,19 @@ import 'package:injectable/injectable.dart';
 import 'package:shelters/domain/core/errors/failures.dart';
 import 'package:shelters/domain/core/usecase/usecase.dart';
 import 'package:shelters/flows/main/domain/repositories/chats_repository.dart';
+import 'package:shelters/flows/main/domain/usecases/join_chat_group.dart';
 
 @injectable
-class JoinChatGroupUseCase implements UseCase<void, ChatGroupParams> {
+class LeaveChatGroupUseCase implements UseCase<void, ChatGroupParams> {
   final ChatsRepositoryI repository;
 
-  JoinChatGroupUseCase(this.repository);
+  LeaveChatGroupUseCase(this.repository);
 
   @override
   Future<Either<Failure, void>> call(ChatGroupParams params) async {
-    return await repository.addUserToGroupChat(
+    return await repository.removeUserFromGroupChat(
       userId: params.userId,
       chatId: params.chatId,
     );
   }
-}
-
-class ChatGroupParams {
-  ChatGroupParams({
-    required this.userId,
-    required this.chatId,
-  });
-
-  final String userId;
-  final String chatId;
 }

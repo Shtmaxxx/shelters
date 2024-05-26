@@ -143,7 +143,7 @@ class MapCubit extends Cubit<MapState> {
     required String spotName,
   }) async {
     final result = await joinChatGroup(
-      JoinChatParams(userId: userId, chatId: chatId),
+      ChatGroupParams(userId: userId, chatId: chatId),
     );
     result.fold(
       (failure) {
@@ -239,7 +239,7 @@ class MapCubit extends Cubit<MapState> {
         },
       );
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 

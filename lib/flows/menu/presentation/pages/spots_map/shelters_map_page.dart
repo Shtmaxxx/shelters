@@ -47,14 +47,17 @@ class SheltersMapPage extends StatelessWidget {
                     onJoinSpot: () async {
                       Routemaster.of(context).pop();
                       if (state.pressedMarkerPoint.spotJoined) {
-                        Routemaster.of(context).push(
+                        final result = await Routemaster.of(context).push<bool>(
                           path + ChatPage.path,
                           queryParameters: {
                             'chatId': state.pressedMarkerPoint.chatId,
                             'chatName': state.pressedMarkerPoint.name,
                             'isGroup': 'true',
                           },
-                        );
+                        ).result;
+                        if (result ?? false) {
+                          mapCubit.getMapMarkers(user.id);
+                        }
                       } else {
                         mapCubit.joinSpot(
                           userId: user.id,

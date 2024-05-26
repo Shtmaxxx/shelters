@@ -11,6 +11,7 @@ import 'package:shelters/flows/menu/presentation/pages/profile/profile_page.dart
 import 'package:shelters/gen/assets.gen.dart';
 import 'package:shelters/navigation/app_state_cubit/app_state_cubit.dart';
 import 'package:shelters/services/injectible/injectible_init.dart';
+import 'package:shelters/widgets/app_alert_dialog.dart';
 import 'package:shelters/widgets/circular_loading.dart';
 
 class ChatPage extends StatelessWidget {
@@ -39,7 +40,9 @@ class ChatPage extends StatelessWidget {
         ),
       child: BlocListener<MessagesCubit, MessagesState>(
         listener: (context, state) {
-          if (state is MessagesError) {
+          if (state is ChatGroupLeft) {
+            Routemaster.of(context).pop(true);
+          } else if (state is MessagesError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.failure.message)),
             );
@@ -49,6 +52,24 @@ class ChatPage extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               title: Text(chatName),
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    AppAlertDialog.show(
+                      context: context,
+                      title: 'Confirmation',
+                      message: 'Are you sure you want to leave $chatName chat?',
+                      actionTitle: 'Leave',
+                      onActionPressed: () =>
+                          context.read<MessagesCubit>().leaveChat(
+                                userId: user.id,
+                                chatId: chatId,
+                              ),
+                    );
+                  },
+                  icon: const Icon(Icons.logout),
+                ),
+              ],
             ),
             backgroundColor: Theme.of(context).canvasColor,
             body: Stack(
