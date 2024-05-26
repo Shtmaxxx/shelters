@@ -32,7 +32,7 @@ class FirestoreMarkers {
     final markersFutures = result.docs.map((doc) async {
       final DocumentReference chatRef = doc.get('chatRef');
       final chatDoc = await chatRef.get();
-      final spotJoined =
+      final shelterJoined =
           chatsResult.docs.firstWhereOrNull((doc) => doc.id == chatDoc.id) !=
               null;
       final GeoPoint geoPoint = doc.get('geopoint');
@@ -42,7 +42,7 @@ class FirestoreMarkers {
         name: chatDoc.get('title'),
         description: chatDoc.get('description'),
         chatId: chatDoc.id,
-        spotJoined: spotJoined,
+        shelterJoined: shelterJoined,
         latitude: geoPoint.latitude,
         longitude: geoPoint.longitude,
       );

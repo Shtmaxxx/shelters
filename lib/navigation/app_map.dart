@@ -4,7 +4,7 @@ import 'package:shelters/flows/main/presentation/pages/chat_page/chat_page.dart'
 import 'package:shelters/flows/menu/presentation/pages/create_marker/create_marker_page.dart';
 import 'package:shelters/flows/menu/presentation/pages/pick_marker_location/pick_marker_location_page.dart';
 import 'package:shelters/flows/menu/presentation/pages/profile/profile_page.dart';
-import 'package:shelters/flows/menu/presentation/pages/spots_map/shelters_map_page.dart';
+import 'package:shelters/flows/menu/presentation/pages/shelters_map/shelters_map_page.dart';
 import '../flows/main/presentation/pages/main/main_page.dart';
 
 class AppRouteMap extends RouteMap {

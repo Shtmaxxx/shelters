@@ -1,8 +1,8 @@
 import 'dart:ui' as ui;
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:shelters/flows/menu/presentation/pages/spots_map/enums/markers_icons.dart';
-import 'package:shelters/flows/menu/presentation/pages/spots_map/helpers/map_constants.dart';
+import 'package:shelters/flows/menu/presentation/pages/shelters_map/enums/markers_icons.dart';
+import 'package:shelters/flows/menu/presentation/pages/shelters_map/helpers/map_constants.dart';
 import 'package:shelters/gen/assets.gen.dart';
 
 class MarkerHelper {

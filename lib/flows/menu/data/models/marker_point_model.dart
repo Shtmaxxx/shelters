@@ -6,7 +6,7 @@ class MarkerPointModel extends MarkerPoint {
     required super.name,
     required super.description,
     required super.chatId,
-    required super.spotJoined,
+    required super.shelterJoined,
     required super.latitude,
     required super.longitude,
   });

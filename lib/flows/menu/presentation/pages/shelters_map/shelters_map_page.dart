@@ -6,9 +6,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:shelters/flows/main/presentation/pages/chat_page/chat_page.dart';
 import 'package:shelters/flows/menu/presentation/pages/create_marker/create_marker_page.dart';
-import 'package:shelters/flows/menu/presentation/pages/spots_map/cubit/map_cubit.dart';
-import 'package:shelters/flows/menu/presentation/pages/spots_map/helpers/marker_helper.dart';
-import 'package:shelters/flows/menu/presentation/pages/spots_map/widgets/marker_info_pop_up.dart';
+import 'package:shelters/flows/menu/presentation/pages/shelters_map/cubit/map_cubit.dart';
+import 'package:shelters/flows/menu/presentation/pages/shelters_map/helpers/marker_helper.dart';
+import 'package:shelters/flows/menu/presentation/pages/shelters_map/widgets/marker_info_pop_up.dart';
 import 'package:shelters/navigation/app_state_cubit/app_state_cubit.dart';
 import 'package:shelters/services/injectible/injectible_init.dart';
 import 'package:shelters/widgets/circular_loading.dart';
@@ -43,10 +43,10 @@ class SheltersMapPage extends StatelessWidget {
                     title: state.pressedMarkerPoint.name,
                     description: state.pressedMarkerPoint.description,
                     distance: '${(distance * 0.001).toStringAsFixed(3)} km',
-                    isJoined: state.pressedMarkerPoint.spotJoined,
+                    isJoined: state.pressedMarkerPoint.shelterJoined,
                     onJoinSpot: () async {
                       Routemaster.of(context).pop();
-                      if (state.pressedMarkerPoint.spotJoined) {
+                      if (state.pressedMarkerPoint.shelterJoined) {
                         final result = await Routemaster.of(context).push<bool>(
                           path + ChatPage.path,
                           queryParameters: {
@@ -73,7 +73,7 @@ class SheltersMapPage extends StatelessWidget {
                   ),
                 );
                 mapCubit.resetMap();
-              } else if (state is SpotJoined) {
+              } else if (state is ShelterJoined) {
                 mapCubit.getMapMarkers(user.id);
                 Routemaster.of(context).push(
                   path + ChatPage.path,

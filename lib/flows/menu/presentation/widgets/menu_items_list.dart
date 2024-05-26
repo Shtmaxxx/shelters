@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:shelters/flows/menu/presentation/pages/profile/profile_page.dart';
-import 'package:shelters/flows/menu/presentation/pages/spots_map/shelters_map_page.dart';
+import 'package:shelters/flows/menu/presentation/pages/shelters_map/shelters_map_page.dart';
 import 'package:shelters/flows/menu/presentation/widgets/navigation_menu_item.dart';
 import 'package:shelters/gen/assets.gen.dart';
 import 'package:shelters/navigation/app_state_cubit/app_state_cubit.dart';
@@ -32,7 +32,7 @@ class MenuItemsList extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           NavigationMenuItem(
-            title: 'Spots Map',
+            title: 'Shelters Map',
             iconPath: Assets.icons.menuMap.path,
             onTap: () => Routemaster.of(context).push(SheltersMapPage.path),
           ),

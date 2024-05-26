@@ -19,7 +19,7 @@ class NavigationMenuHeader extends StatelessWidget {
         SvgPicture.asset(Assets.icons.menuLogo.path),
         const SizedBox(height: 16),
         Text(
-          'Spots Finder',
+          'Shelters Finder',
           style: Theme.of(context).primaryTextTheme.titleLarge?.copyWith(
                 color: Colors.white,
               ),

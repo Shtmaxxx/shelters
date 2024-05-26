@@ -15,11 +15,11 @@ import 'package:shelters/domain/core/errors/failures.dart';
 import 'package:shelters/flows/main/domain/usecases/join_chat_group.dart';
 import 'package:shelters/flows/menu/domain/entities/marker_point.dart';
 import 'package:shelters/flows/menu/domain/usecases/get_markers.dart';
-import 'package:shelters/flows/menu/presentation/pages/spots_map/enums/markers_icons.dart';
-import 'package:shelters/flows/menu/presentation/pages/spots_map/helpers/location_permissions_helper.dart';
-import 'package:shelters/flows/menu/presentation/pages/spots_map/helpers/map_constants.dart';
-import 'package:shelters/flows/menu/presentation/pages/spots_map/helpers/map_marker.dart';
-import 'package:shelters/flows/menu/presentation/pages/spots_map/helpers/marker_helper.dart';
+import 'package:shelters/flows/menu/presentation/pages/shelters_map/enums/markers_icons.dart';
+import 'package:shelters/flows/menu/presentation/pages/shelters_map/helpers/location_permissions_helper.dart';
+import 'package:shelters/flows/menu/presentation/pages/shelters_map/helpers/map_constants.dart';
+import 'package:shelters/flows/menu/presentation/pages/shelters_map/helpers/map_marker.dart';
+import 'package:shelters/flows/menu/presentation/pages/shelters_map/helpers/marker_helper.dart';
 
 part 'map_state.dart';
 
@@ -157,7 +157,7 @@ class MapCubit extends Cubit<MapState> {
       },
       (_) {
         emit(
-          SpotJoined(
+          ShelterJoined(
             chatId: chatId,
             spotName: spotName,
             markers: state.markers,
@@ -174,7 +174,7 @@ class MapCubit extends Cubit<MapState> {
           (m) => MapMarker(
             id: m.id,
             position: LatLng(m.latitude, m.longitude),
-            icon: BitmapDescriptor.fromBytes(m.spotJoined
+            icon: BitmapDescriptor.fromBytes(m.shelterJoined
                 ? markersIcons[MarkersIcons.shelterJoined]!
                 : markersIcons[MarkersIcons.shelter]!),
           ),

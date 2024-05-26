@@ -7,10 +7,10 @@ import 'package:injectable/injectable.dart';
 import 'package:shelters/domain/core/errors/failures.dart';
 import 'package:shelters/flows/menu/domain/entities/marker_point.dart';
 import 'package:shelters/flows/menu/domain/usecases/add_marker_point.dart';
-import 'package:shelters/flows/menu/presentation/pages/spots_map/enums/markers_icons.dart';
-import 'package:shelters/flows/menu/presentation/pages/spots_map/helpers/location_permissions_helper.dart';
-import 'package:shelters/flows/menu/presentation/pages/spots_map/helpers/map_constants.dart';
-import 'package:shelters/flows/menu/presentation/pages/spots_map/helpers/marker_helper.dart';
+import 'package:shelters/flows/menu/presentation/pages/shelters_map/enums/markers_icons.dart';
+import 'package:shelters/flows/menu/presentation/pages/shelters_map/helpers/location_permissions_helper.dart';
+import 'package:shelters/flows/menu/presentation/pages/shelters_map/helpers/map_constants.dart';
+import 'package:shelters/flows/menu/presentation/pages/shelters_map/helpers/marker_helper.dart';
 
 part 'pick_marker_location_state.dart';
 
@@ -43,7 +43,7 @@ class PickMarkerLocationCubit extends Cubit<PickMarkerLocationState> {
       name: 'Marker one',
       description: '',
       chatId: '',
-      spotJoined: false,
+      shelterJoined: false,
       latitude: initialCameraPosition.target.latitude,
       longitude: initialCameraPosition.target.longitude,
     );

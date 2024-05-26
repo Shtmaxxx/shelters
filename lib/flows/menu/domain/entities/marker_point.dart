@@ -4,7 +4,7 @@ class MarkerPoint {
     required this.name,
     required this.description,
     required this.chatId,
-    required this.spotJoined,
+    required this.shelterJoined,
     required this.latitude,
     required this.longitude,
   });
@@ -13,7 +13,7 @@ class MarkerPoint {
   final String name;
   final String description;
   final String chatId;
-  final bool spotJoined;
+  final bool shelterJoined;
   final double latitude;
   final double longitude;
 
@@ -22,7 +22,7 @@ class MarkerPoint {
     String? name,
     String? description,
     String? chatId,
-    bool? spotJoined,
+    bool? shelterJoined,
     double? latitude,
     double? longitude,
   }) {
@@ -31,7 +31,7 @@ class MarkerPoint {
       name: name ?? this.name,
       description: description ?? this.description,
       chatId: chatId ?? this.chatId,
-      spotJoined: spotJoined ?? this.spotJoined,
+      shelterJoined: shelterJoined ?? this.shelterJoined,
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
     );

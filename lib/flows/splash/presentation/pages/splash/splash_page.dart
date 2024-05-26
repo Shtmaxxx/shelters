@@ -23,7 +23,7 @@ class SplashPage extends StatelessWidget {
           },
           child: const Center(
             child: Text(
-              'Spots',
+              'Shelters Finder',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 40,

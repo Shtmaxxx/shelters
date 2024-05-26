@@ -8,6 +8,7 @@ part 'sign_in_state.dart';
 @injectable
 class SignInCubit extends Cubit<SignInState> {
   SignInCubit(this.signInUseCase) : super(SignInInitial());
+  
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final TextEditingController emailController = TextEditingController();

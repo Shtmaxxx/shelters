@@ -47,7 +47,7 @@ import '../../flows/menu/presentation/pages/create_marker/cubit/cubit/create_mar
     as _i3;
 import '../../flows/menu/presentation/pages/pick_marker_location/cubit/pick_marker_location_cubit.dart'
     as _i33;
-import '../../flows/menu/presentation/pages/spots_map/cubit/map_cubit.dart'
+import '../../flows/menu/presentation/pages/shelters_map/cubit/map_cubit.dart'
     as _i32;
 import '../../flows/splash/presentation/pages/splash/cubit/splash_cubit.dart'
     as _i16;

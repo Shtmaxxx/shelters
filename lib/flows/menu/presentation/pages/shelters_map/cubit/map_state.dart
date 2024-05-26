@@ -39,8 +39,8 @@ class MarkerPressed extends MapDataLoaded {
   final MarkerPoint pressedMarkerPoint;
 }
 
-class SpotJoined extends MapDataLoaded {
-  const SpotJoined({
+class ShelterJoined extends MapDataLoaded {
+  const ShelterJoined({
     super.markers,
     super.markerPoints,
     required this.chatId,
