@@ -51,11 +51,11 @@ class ShelterJoined extends MapDataLoaded {
     super.markers,
     super.markerPoints,
     required this.chatId,
-    required this.spotName,
+    required this.shelterName,
   });
 
   final String chatId;
-  final String spotName;
+  final String shelterName;
 }
 
 class MapError extends MapDataLoaded {

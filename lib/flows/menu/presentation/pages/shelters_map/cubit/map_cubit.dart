@@ -140,10 +140,10 @@ class MapCubit extends Cubit<MapState> {
     );
   }
 
-  Future<void> joinSpot({
+  Future<void> joinShelter({
     required String userId,
     required String chatId,
-    required String spotName,
+    required String shelterName,
   }) async {
     final result = await joinChatGroup(
       ChatGroupParams(userId: userId, chatId: chatId),
@@ -162,7 +162,7 @@ class MapCubit extends Cubit<MapState> {
         emit(
           ShelterJoined(
             chatId: chatId,
-            spotName: spotName,
+            shelterName: shelterName,
             markers: state.markers,
             markerPoints: state.markerPoints,
           ),
@@ -340,7 +340,7 @@ class MapCubit extends Cubit<MapState> {
           markers: state.markers,
           markerPoints: state.markerPoints,
           failure: const OtherFailure(
-            message: 'ERROR: Could not find any spot info',
+            message: 'ERROR: Could not find any shelter info',
           ),
         ),
       );

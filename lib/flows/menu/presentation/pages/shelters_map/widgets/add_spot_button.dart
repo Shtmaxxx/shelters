@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shelters/gen/assets.gen.dart';
-class AddSpotButton extends StatelessWidget {
-  const AddSpotButton({
+class AddShelterButton extends StatelessWidget {
+  const AddShelterButton({
     required this.onPressed,
     super.key,
   });

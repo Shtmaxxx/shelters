@@ -18,7 +18,7 @@ import 'package:shelters/widgets/info_pop_up.dart';
 class SheltersMapPage extends StatelessWidget {
   const SheltersMapPage({super.key});
 
-  static const String path = '/spots_map';
+  static const String path = '/shelters_map';
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class SheltersMapPage extends StatelessWidget {
                     description: pressedMarker.description,
                     distance: '${(distance * 0.001).toStringAsFixed(3)} km',
                     isJoined: pressedMarker.shelterJoined,
-                    onJoinSpot: () async {
+                    onJoinShelter: () async {
                       Routemaster.of(context).pop();
                       if (pressedMarker.shelterJoined) {
                         final result = await Routemaster.of(context).push<bool>(
@@ -61,10 +61,10 @@ class SheltersMapPage extends StatelessWidget {
                           mapCubit.getMapMarkers(user.id);
                         }
                       } else {
-                        mapCubit.joinSpot(
+                        mapCubit.joinShelter(
                           userId: user.id,
                           chatId: pressedMarker.chatId,
-                          spotName: pressedMarker.name,
+                          shelterName: pressedMarker.name,
                         );
                       }
                     },
@@ -95,7 +95,7 @@ class SheltersMapPage extends StatelessWidget {
                   path + ChatPage.path,
                   queryParameters: {
                     'chatId': state.chatId,
-                    'chatName': state.spotName,
+                    'chatName': state.shelterName,
                     'isGroup': 'true',
                   },
                 );
