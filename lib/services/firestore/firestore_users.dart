@@ -22,7 +22,13 @@ class FirestoreUsers {
   }
 
   Future<void> addUser({required String name, required String email}) async {
-    await _usersCollection.add({'email': email, 'name': name});
+    await _usersCollection.add(
+      {
+        'email': email,
+        'name': name,
+        'isAdmin': false,
+      },
+    );
   }
 
   Future<UserModel> getUserByEmail(String email) async {
@@ -34,6 +40,7 @@ class FirestoreUsers {
       id: user.id,
       name: userData['name'],
       email: userData['email'],
+      isAdmin: userData['isAdmin'],
     );
   }
 }

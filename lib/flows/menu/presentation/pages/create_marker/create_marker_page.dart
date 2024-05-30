@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:routemaster/routemaster.dart';
-import 'package:shelters/flows/menu/presentation/pages/create_marker/cubit/cubit/create_marker_cubit.dart';
+import 'package:shelters/flows/menu/presentation/pages/create_marker/cubit/create_marker_cubit.dart';
 import 'package:shelters/flows/menu/presentation/pages/pick_marker_location/pick_marker_location_page.dart';
 import 'package:shelters/services/injectible/injectible_init.dart';
 import 'package:shelters/widgets/app_text_field.dart';

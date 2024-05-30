@@ -11,6 +11,10 @@ abstract class MarkersDatasourceI {
     required double lat,
     required double lon,
   });
+  Future<void> removeMarkerPoint({
+    required String markerId,
+    required String chatId,
+  });
 }
 
 @Injectable(as: MarkersDatasourceI)
@@ -44,6 +48,22 @@ class MarkersDatasourceImpl implements MarkersDatasourceI {
         description: description,
         lat: lat,
         lon: lon,
+      );
+      return result;
+    } catch (exception) {
+      throw ServerFailure(message: 'Something went wrong: $exception');
+    }
+  }
+
+  @override
+  Future<void> removeMarkerPoint({
+    required String markerId,
+    required String chatId,
+  }) async {
+    try {
+      final result = await firestoreMarkers.removeMarkerPoint(
+        markerId: markerId,
+        chatId: chatId,
       );
       return result;
     } catch (exception) {

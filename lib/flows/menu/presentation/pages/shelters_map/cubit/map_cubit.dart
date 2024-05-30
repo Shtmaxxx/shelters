@@ -15,6 +15,7 @@ import 'package:shelters/domain/core/errors/failures.dart';
 import 'package:shelters/flows/main/domain/usecases/join_chat_group.dart';
 import 'package:shelters/flows/menu/domain/entities/marker_point.dart';
 import 'package:shelters/flows/menu/domain/usecases/get_markers.dart';
+import 'package:shelters/flows/menu/domain/usecases/remove_marker_point.dart';
 import 'package:shelters/flows/menu/presentation/pages/shelters_map/enums/markers_icons.dart';
 import 'package:shelters/flows/menu/presentation/pages/shelters_map/helpers/location_permissions_helper.dart';
 import 'package:shelters/flows/menu/presentation/pages/shelters_map/helpers/map_constants.dart';
@@ -28,10 +29,12 @@ class MapCubit extends Cubit<MapState> {
   MapCubit({
     required this.getMarkers,
     required this.joinChatGroup,
+    required this.removeMarkerPointUseCase,
   }) : super(const Loading());
 
   final GetMarkersUseCase getMarkers;
   final JoinChatGroupUseCase joinChatGroup;
+  final RemoveMarkerPointUseCase removeMarkerPointUseCase;
 
   static const CameraPosition defaultInitialCameraPosition =
       MapConstants.defaultInitialCameraPosition;
@@ -204,7 +207,38 @@ class MapCubit extends Cubit<MapState> {
     );
   }
 
-  openMapsBottomSheet({
+  Future<void> deleteShelter({
+    required String markerId,
+    required String chatId,
+  }) async {
+    RemoveMarkerPointParameters params = RemoveMarkerPointParameters(
+      markerId: markerId,
+      chatId: chatId,
+    );
+
+    final result = await removeMarkerPointUseCase(params);
+    result.fold(
+      (failure) {
+        emit(
+          MapError(
+            markers: state.markers,
+            markerPoints: state.markerPoints,
+            failure: failure,
+          ),
+        );
+      },
+      (_) {
+        emit(
+          MarkerDeleted(
+            markers: state.markers,
+            markerPoints: state.markerPoints,
+          ),
+        );
+      },
+    );
+  }
+
+  void openMapsBottomSheet({
     required BuildContext context,
     required MarkerPoint markerPoint,
   }) async {

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shelters/navigation/app_state_cubit/app_state_cubit.dart';
 import 'package:shelters/widgets/primary_button.dart';
 
 class MarkerInfoPopUp extends StatelessWidget {
@@ -9,6 +11,7 @@ class MarkerInfoPopUp extends StatelessWidget {
     required this.isJoined,
     required this.onJoinSpot,
     required this.onNavigate,
+    required this.onDeleteShelter,
     Key? key,
   }) : super(key: key);
 
@@ -18,83 +21,101 @@ class MarkerInfoPopUp extends StatelessWidget {
   final bool isJoined;
   final VoidCallback onJoinSpot;
   final VoidCallback onNavigate;
+  final VoidCallback onDeleteShelter;
 
   @override
   Widget build(BuildContext context) {
+    final user = (context.read<AppStateCubit>().state as AuthorizedState).user;
+
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
       insetPadding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 17,
-          horizontal: 24,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Center(
-              child: Text(
-                title,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16,
-                ),
-              ),
+      child: ConstrainedBox(
+        constraints:
+            BoxConstraints(maxHeight: MediaQuery.of(context).size.height - 200),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 17,
+              horizontal: 24,
             ),
-            const SizedBox(height: 18),
-            const Text(
-              'Description',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 14,
-              ),
-            ),
-            const SizedBox(height: 5),
-            Text(
-              description,
-              style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: 14,
-                color: Theme.of(context).primaryColor.withOpacity(0.8),
-              ),
-            ),
-            const SizedBox(height: 12),
-            Row(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
-                  'Distance: ',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
+                Center(
+                  child: Text(
+                    title,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 10, bottom: 5),
+                  child: Text(
+                    'Description',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                    ),
                   ),
                 ),
                 Text(
-                  distance,
+                  description,
                   style: TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 14,
                     color: Theme.of(context).primaryColor.withOpacity(0.8),
                   ),
                 ),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    const Text(
+                      'Distance: ',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                      ),
+                    ),
+                    Text(
+                      distance,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: Theme.of(context).primaryColor.withOpacity(0.8),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 16, bottom: 10),
+                  child: PrimaryButton(
+                    title: isJoined ? 'Open chat' : 'Join shelter',
+                    onPressed: onJoinSpot,
+                  ),
+                ),
+                PrimaryButton(
+                  title: 'Open in maps',
+                  onPressed: onNavigate,
+                ),
+                if (user.isAdmin) ...{
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: PrimaryButton(
+                      title: 'Delete shelter',
+                      onPressed: onDeleteShelter,
+                      color: const Color.fromRGBO(204, 46, 46, 1),
+                    ),
+                  ),
+                }
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 16, bottom: 10),
-              child: PrimaryButton(
-                title: isJoined ? 'Open chat' : 'Join shelter',
-                onPressed: onJoinSpot,
-                verticalPadding: 12,
-              ),
-            ),
-            PrimaryButton(
-              title: 'Open in maps',
-              onPressed: onNavigate,
-              verticalPadding: 12,
-            ),
-          ],
+          ),
         ),
       ),
     );

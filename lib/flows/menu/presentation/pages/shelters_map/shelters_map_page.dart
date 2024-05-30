@@ -11,6 +11,7 @@ import 'package:shelters/flows/menu/presentation/pages/shelters_map/helpers/mark
 import 'package:shelters/flows/menu/presentation/pages/shelters_map/widgets/marker_info_pop_up.dart';
 import 'package:shelters/navigation/app_state_cubit/app_state_cubit.dart';
 import 'package:shelters/services/injectible/injectible_init.dart';
+import 'package:shelters/widgets/app_alert_dialog.dart';
 import 'package:shelters/widgets/circular_loading.dart';
 import 'package:shelters/widgets/info_pop_up.dart';
 
@@ -32,26 +33,27 @@ class SheltersMapPage extends StatelessWidget {
           return BlocListener<MapCubit, MapState>(
             listener: (context, state) async {
               if (state is MarkerPressed) {
+                final pressedMarker = state.pressedMarkerPoint;
                 final distance = await MarkerHelper.getDistanceToMarker(
-                  state.pressedMarkerPoint.latitude,
-                  state.pressedMarkerPoint.longitude,
+                  pressedMarker.latitude,
+                  pressedMarker.longitude,
                 );
 
                 await showDialog(
                   context: context,
                   builder: (context) => MarkerInfoPopUp(
-                    title: state.pressedMarkerPoint.name,
-                    description: state.pressedMarkerPoint.description,
+                    title: pressedMarker.name,
+                    description: pressedMarker.description,
                     distance: '${(distance * 0.001).toStringAsFixed(3)} km',
-                    isJoined: state.pressedMarkerPoint.shelterJoined,
+                    isJoined: pressedMarker.shelterJoined,
                     onJoinSpot: () async {
                       Routemaster.of(context).pop();
-                      if (state.pressedMarkerPoint.shelterJoined) {
+                      if (pressedMarker.shelterJoined) {
                         final result = await Routemaster.of(context).push<bool>(
                           path + ChatPage.path,
                           queryParameters: {
-                            'chatId': state.pressedMarkerPoint.chatId,
-                            'chatName': state.pressedMarkerPoint.name,
+                            'chatId': pressedMarker.chatId,
+                            'chatName': pressedMarker.name,
                             'isGroup': 'true',
                           },
                         ).result;
@@ -61,14 +63,28 @@ class SheltersMapPage extends StatelessWidget {
                       } else {
                         mapCubit.joinSpot(
                           userId: user.id,
-                          chatId: state.pressedMarkerPoint.chatId,
-                          spotName: state.pressedMarkerPoint.name,
+                          chatId: pressedMarker.chatId,
+                          spotName: pressedMarker.name,
                         );
                       }
                     },
                     onNavigate: () => mapCubit.openMapsBottomSheet(
                       context: context,
-                      markerPoint: state.pressedMarkerPoint,
+                      markerPoint: pressedMarker,
+                    ),
+                    onDeleteShelter: () => AppAlertDialog.show(
+                      context: context,
+                      title: 'Confirmation',
+                      message:
+                          'Are you sure you want to delete ${pressedMarker.name} shelter?',
+                      actionTitle: 'Delete',
+                      onActionPressed: () {
+                        Routemaster.of(context).pop();
+                        mapCubit.deleteShelter(
+                          markerId: pressedMarker.id,
+                          chatId: pressedMarker.chatId,
+                        );
+                      },
                     ),
                   ),
                 );
@@ -83,6 +99,8 @@ class SheltersMapPage extends StatelessWidget {
                     'isGroup': 'true',
                   },
                 );
+              } else if (state is MarkerDeleted) {
+                mapCubit.getMapMarkers(user.id);
               } else if (state is MapError) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text(state.failure.message)),
@@ -115,28 +133,30 @@ class SheltersMapPage extends StatelessWidget {
                   return const CircularLoading();
                 },
               ),
-              floatingActionButton: FloatingActionButton(
-                onPressed: () async {
-                  final result = await Routemaster.of(context)
-                      .push<bool>(path + CreateMarkerPage.path)
-                      .result;
-                  if (result ?? false) {
-                    mapCubit.getMapMarkers(user.id);
-                    showDialog(
-                      context: context,
-                      builder: (context) => const InfoPopUp(
-                        title: 'Success!',
-                        info: 'Shelter has been added successfully!',
+              floatingActionButton: user.isAdmin
+                  ? FloatingActionButton(
+                      onPressed: () async {
+                        final result = await Routemaster.of(context)
+                            .push<bool>(path + CreateMarkerPage.path)
+                            .result;
+                        if (result ?? false) {
+                          mapCubit.getMapMarkers(user.id);
+                          showDialog(
+                            context: context,
+                            builder: (context) => const InfoPopUp(
+                              title: 'Success!',
+                              info: 'Shelter has been added successfully!',
+                            ),
+                          );
+                        }
+                      },
+                      backgroundColor: Theme.of(context).primaryColor,
+                      child: Icon(
+                        Icons.add,
+                        color: Theme.of(context).scaffoldBackgroundColor,
                       ),
-                    );
-                  }
-                },
-                backgroundColor: Theme.of(context).primaryColor,
-                child: Icon(
-                  Icons.add,
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                ),
-              ),
+                    )
+                  : null,
             ),
           );
         },

@@ -20,6 +20,7 @@ class FirestoreChats {
           'participantsRefs',
           arrayContains: currentUserRef,
         )
+        .orderBy('recentMessageDateTime', descending: true)
         .snapshots();
 
     final chats = result.asyncMap(
@@ -69,7 +70,10 @@ class FirestoreChats {
     }
   }
 
-  Future<void> removeUserFromGroupChat({required String userId, required String chatId,}) async {
+  Future<void> removeUserFromGroupChat({
+    required String userId,
+    required String chatId,
+  }) async {
     final currentUserRef = _usersCollection.doc(userId);
     final chatDoc = await _chatsCollection.doc(chatId).get();
     final List participants = chatDoc.get('participantsRefs');

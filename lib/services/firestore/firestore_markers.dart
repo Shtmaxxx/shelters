@@ -72,4 +72,12 @@ class FirestoreMarkers {
       'geopoint': geoPoint,
     });
   }
+
+  Future<void> removeMarkerPoint({
+    required String markerId,
+    required String chatId,
+  }) async {
+    _markersCollection.doc(markerId).delete();
+    _chatsCollection.doc(chatId).delete();
+  }
 }

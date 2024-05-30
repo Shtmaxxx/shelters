@@ -39,6 +39,13 @@ class MarkerPressed extends MapDataLoaded {
   final MarkerPoint pressedMarkerPoint;
 }
 
+class MarkerDeleted extends MapState {
+  const MarkerDeleted({
+    super.markers,
+    super.markerPoints,
+  });
+}
+
 class ShelterJoined extends MapDataLoaded {
   const ShelterJoined({
     super.markers,
