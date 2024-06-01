@@ -2,11 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:shelters/themes/theme_data_values.dart';
 
-import 'l10n/app_localizations.dart';
 import 'navigation/app_state_cubit/app_state_cubit.dart';
 import 'navigation/helpers/title_observer.dart';
 import 'services/injectible/injectible_init.dart';
@@ -48,12 +46,6 @@ class App extends StatelessWidget {
               ],
               routesBuilder: (context) => state.routeMap,
             ),
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
           );
         },
       ),
