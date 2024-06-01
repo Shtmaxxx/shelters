@@ -22,17 +22,19 @@ class MessageTextField extends StatelessWidget {
           floatingLabelBehavior: FloatingLabelBehavior.never,
           contentPadding: const EdgeInsets.symmetric(
             vertical: 7,
-            horizontal: 10,
+            horizontal: 12,
           ),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: Theme.of(context).primaryColorLight,
+              color: Theme.of(context).primaryColor,
             ),
+            borderRadius: BorderRadius.circular(16)
           ),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: Theme.of(context).primaryColorLight,
+              color: Theme.of(context).primaryColor,
             ),
+            borderRadius: BorderRadius.circular(16)
           ),
           labelText: 'Message',
           labelStyle: const TextStyle(

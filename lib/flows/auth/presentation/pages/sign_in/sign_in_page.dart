@@ -1,11 +1,11 @@
 import 'package:shelters/flows/auth/presentation/pages/sign_up/sign_up_page.dart';
-import 'package:shelters/flows/auth/presentation/widgets/auth_button.dart';
 import 'package:shelters/services/helpers/email_validation.dart';
 import 'package:shelters/services/injectible/injectible_init.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:shelters/widgets/app_text_field.dart';
+import 'package:shelters/widgets/primary_button.dart';
 
 import '../../../../../navigation/app_state_cubit/app_state_cubit.dart';
 import 'cubit/sign_in_cubit.dart';
@@ -82,8 +82,10 @@ class SignInPage extends StatelessWidget {
                           },
                         ),
                         const SizedBox(height: 30),
-                        AuthButton(
-                          name: 'Sign in',
+                        PrimaryButton(
+                          title: 'Sign in',
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                          titleColor: Theme.of(context).primaryColor,
                           onPressed: () async {
                             final formState = context
                                 .read<SignInCubit>()

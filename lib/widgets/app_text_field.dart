@@ -45,30 +45,35 @@ class AppTextField extends StatelessWidget {
           borderSide: BorderSide(
             color: color,
           ),
+          borderRadius: BorderRadius.circular(8),
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: color,
           ),
+          borderRadius: BorderRadius.circular(8),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: color,
           ),
-        ),
-        errorStyle: TextStyle(
-          color: errorColor,
-          fontWeight: FontWeight.w500,
+          borderRadius: BorderRadius.circular(8),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: errorColor,
           ),
+          borderRadius: BorderRadius.circular(8),
         ),
         errorBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: errorColor,
           ),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        errorStyle: TextStyle(
+          color: errorColor,
+          fontWeight: FontWeight.w500,
         ),
         isDense: true,
         labelText: label,

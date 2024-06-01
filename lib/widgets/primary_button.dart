@@ -6,6 +6,7 @@ class PrimaryButton extends StatelessWidget {
     required this.title,
     this.verticalPadding = 12,
     this.color,
+    this.titleColor,
     super.key,
   });
 
@@ -13,6 +14,7 @@ class PrimaryButton extends StatelessWidget {
   final String title;
   final double verticalPadding;
   final Color? color;
+  final Color? titleColor;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,8 @@ class PrimaryButton extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
-                  color: Theme.of(context).scaffoldBackgroundColor,
+                  color:
+                      titleColor ?? Theme.of(context).scaffoldBackgroundColor,
                 ),
               ),
             ],
