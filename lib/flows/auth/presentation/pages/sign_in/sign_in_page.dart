@@ -40,7 +40,7 @@ class SignInPage extends StatelessWidget {
                     key: context.read<SignInCubit>().formKey,
                     child: Column(
                       children: [
-                        const SizedBox(height: 210),
+                        SizedBox(height: MediaQuery.of(context).size.height * 0.3),
                         const Text(
                           'Sign in',
                           style: TextStyle(

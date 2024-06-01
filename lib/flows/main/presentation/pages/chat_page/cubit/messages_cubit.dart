@@ -48,12 +48,14 @@ class MessagesCubit extends Cubit<MessagesState> {
     required DateTime dateTime,
   }) async {
     if (messageController.text.trim().isNotEmpty) {
+      final message = messageController.text;
+      messageController.text = '';
       final result = await sendMessageUseCase(
         SendMessageParams(
           chatId: chatId,
           senderId: senderId,
           dateTime: dateTime,
-          text: messageController.text,
+          text: message,
         ),
       );
       result.fold(

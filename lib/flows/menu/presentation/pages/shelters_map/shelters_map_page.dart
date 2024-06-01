@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -134,26 +136,29 @@ class SheltersMapPage extends StatelessWidget {
                 },
               ),
               floatingActionButton: user.isAdmin
-                  ? FloatingActionButton(
-                      onPressed: () async {
-                        final result = await Routemaster.of(context)
-                            .push<bool>(path + CreateMarkerPage.path)
-                            .result;
-                        if (result ?? false) {
-                          mapCubit.getMapMarkers(user.id);
-                          showDialog(
-                            context: context,
-                            builder: (context) => const InfoPopUp(
-                              title: 'Success!',
-                              info: 'Shelter has been added successfully!',
-                            ),
-                          );
-                        }
-                      },
-                      backgroundColor: Theme.of(context).primaryColor,
-                      child: Icon(
-                        Icons.add,
-                        color: Theme.of(context).scaffoldBackgroundColor,
+                  ? Align(
+                      alignment: Alignment(1, Platform.isIOS ? -0.56 : 1),
+                      child: FloatingActionButton(
+                        onPressed: () async {
+                          final result = await Routemaster.of(context)
+                              .push<bool>(path + CreateMarkerPage.path)
+                              .result;
+                          if (result ?? false) {
+                            mapCubit.getMapMarkers(user.id);
+                            showDialog(
+                              context: context,
+                              builder: (context) => const InfoPopUp(
+                                title: 'Success!',
+                                info: 'Shelter has been added successfully!',
+                              ),
+                            );
+                          }
+                        },
+                        backgroundColor: Theme.of(context).primaryColor,
+                        child: Icon(
+                          Icons.add,
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                        ),
                       ),
                     )
                   : null,

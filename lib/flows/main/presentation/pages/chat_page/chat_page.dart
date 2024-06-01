@@ -109,7 +109,12 @@ class ChatPage extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     verticalDirection: VerticalDirection.up,
                                     children: [
-                                      const SizedBox(height: 75),
+                                      SizedBox(
+                                        height: MediaQuery.of(context)
+                                                .padding
+                                                .bottom +
+                                            75,
+                                      ),
                                       ...messages.map((item) {
                                         if (!isGroup || item.sentByUser) {
                                           return MessageItem(

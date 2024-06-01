@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:routemaster/routemaster.dart';
@@ -89,10 +91,12 @@ class CreateMarkerPage extends StatelessWidget {
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Padding(
-                      padding: const EdgeInsets.only(
+                      padding: EdgeInsets.only(
                         left: 16,
                         right: 16,
-                        bottom: 20,
+                        bottom: Platform.isIOS
+                            ? MediaQuery.of(context).padding.bottom
+                            : 20,
                       ),
                       child: PrimaryButton(
                         onPressed: () async {

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -59,13 +61,17 @@ class PickMarkerLocationPage extends StatelessWidget {
                           markers: state.markers,
                           mapToolbarEnabled: false,
                           myLocationEnabled: true,
-                          myLocationButtonEnabled: true,
+                          myLocationButtonEnabled: false,
                           onTap: (position) =>
                               pickLocationCubit.onMapPressed(position),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 30),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 15,
+                            vertical: Platform.isIOS
+                                ? MediaQuery.of(context).padding.bottom
+                                : 30,
+                          ),
                           child: Align(
                             alignment: Alignment.bottomCenter,
                             child: PrimaryButton(
