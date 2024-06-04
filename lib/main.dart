@@ -6,7 +6,6 @@ import 'package:routemaster/routemaster.dart';
 import 'package:shelters/themes/theme_data_values.dart';
 
 import 'navigation/app_state_cubit/app_state_cubit.dart';
-import 'navigation/helpers/title_observer.dart';
 import 'services/injectible/injectible_init.dart';
 
 void main() async {
@@ -41,9 +40,6 @@ class App extends StatelessWidget {
             themeMode: ThemeMode.system,
             routeInformationParser: const RoutemasterParser(),
             routerDelegate: RoutemasterDelegate(
-              observers: [
-                TitleObserver(),
-              ],
               routesBuilder: (context) => state.routeMap,
             ),
           );

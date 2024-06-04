@@ -3,7 +3,6 @@ import 'package:shelters/domain/auth/datasource/auth_datasource.dart';
 import 'package:shelters/domain/shared_models/api/user_model.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../core/entities/token.dart';
 import '../../core/errors/failures.dart';
 import 'auth_repo.dart';
 
@@ -14,16 +13,6 @@ class AuthRepositoryImplementation implements AuthRepositoryI {
   );
 
   final AuthDataSourceI remoteDataSource;
-
-  @override
-  Future<Either<Failure, Token>> getOAuthToken() async {
-    return Right(Token.ofNoneType());
-  }
-
-  @override
-  Future<Either<Failure, Token>> getRefreshToken(String refreshToken) async {
-    return Right(Token.ofNoneType());
-  }
 
   @override
   Future<Either<Failure, UserModel>> isUserSignedIn(String email) async {
