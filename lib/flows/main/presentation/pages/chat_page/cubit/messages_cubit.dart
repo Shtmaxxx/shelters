@@ -26,8 +26,9 @@ class MessagesCubit extends Cubit<MessagesState> {
   final SendMessageUseCase sendMessageUseCase;
   final LeaveChatGroupUseCase leaveChatGroupUseCase;
 
-  void initStream(String chatId, String userId) {
-    final result = getChatMessagesUseCase(chatId, userId);
+  Future<void> initStream(String chatId, String userId) async {
+    final params = GetChatMessagesParams(chatId: chatId, userId: userId);
+    final result = await getChatMessagesUseCase(params);
     result.fold(
       (failure) {
         emit(

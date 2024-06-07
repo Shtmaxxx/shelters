@@ -13,8 +13,8 @@ class ChatsCubit extends Cubit<ChatsState> {
 
   final GetUsersChatsUseCase getUsersChatsUseCase;
 
-  void getUsersChats(String userId) {
-    final result = getUsersChatsUseCase(userId);
+  Future<void> getUsersChats(String userId) async {
+    final result = await getUsersChatsUseCase(userId);
     result.fold(
       (failure) {
         emit(
